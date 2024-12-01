@@ -6,7 +6,7 @@
 /*   By: sel-abbo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:21 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/01 17:42:56 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2024/12/01 22:34:49 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_strchr(const char *s, int c)
 	}
 	if (!c)
 		return ((char *)&s[i]);
-	return (0);
+	return (NULL);
 }
 size_t	ft_strlen(const char *s)
 {
