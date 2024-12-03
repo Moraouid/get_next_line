@@ -6,24 +6,29 @@
 /*   By: sel-abbo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:31 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/01 23:29:01 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:16:51 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*read_join(fd, rem)
+static char	*read_join(int fd, char *rem)
 {
-	char	BUFFER;
-	size_t	b_read;
+	char	BUFFER[BUFFER_SIZE + 1];
+	int	b_read;
 
-	b_read = read(fd, BUFFER, BUFFER_SIZE)
-		if (b_read < 0)
-			return (NULL);
-		if (b_read = 0)
-			break;
-		BUFFER[b_read] = '\0':
-		rem = ft_strjoin(rem, BUFFER);
+	b_read = read(fd, BUFFER, BUFFER_SIZE);
+	if (b_read < 0)
+	{
+		free(rem);
+		return (NULL);
+	}
+	if (b_read == 0)
+		return(rem);
+	BUFFER[b_read] = '\0';
+	rem = ft_strjoin(rem, BUFFER);
+	if (!rem)
+		return (NULL);
 	return (rem);
 }
 
@@ -31,23 +36,38 @@ static char	*line_extra(char	**rem)
 {
 	char	*line;
 	char	*new_line;
+	char	*tmp;
 
 	new_line = ft_strchr(*rem, '\n');
 	if (!new_line)
 		return (NULL);
 	line = ft_substr(*rem, 0, new_line - *rem + 1);
-	*rem = ft_strdup(new_line + 1);
-	return(line);	
+	if (!line)
+		return (NULL);
+	tmp = ft_strdup(new_line + 1);
+	if (!tmp)
+	{
+		free(line);
+		return (NULL);
+	}
+	free(*rem);
+	*rem = tmp;
+	return (line);	
 }
 
-char	*get_next_line(int  fd)
+char	*get_next_line(int fd)
 {
 	static char	*rem;
 	char	*line;
-	size_t	b_read;
 	
 	if (fd < 0 || BUFFER_SIZE <= 0)
+	{
+		free(rem);
+		rem = NULL;
 		return (NULL);
+	}
+	if (!rem)
+		rem = ft_strdup("");
 	while (!ft_strchr(rem, '\n'))
 	{
 		rem = read_join(fd, rem);
@@ -59,7 +79,7 @@ char	*get_next_line(int  fd)
 	{
 		line = ft_strdup(rem);
 		free(rem);
-		rem = NULLL;
+		rem = NULL;
 	}
 	return (line);
 }
