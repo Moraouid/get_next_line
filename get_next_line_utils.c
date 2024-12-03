@@ -6,7 +6,7 @@
 /*   By: sel-abbo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:21 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/01 22:34:49 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2024/12/02 01:55:43 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	len_a;
 
 	i = 0;
-	if (!s || start >= (unsigned int)ft_strlen(s))
-		return (ft_calloc(1, 1));
+	if (!s || start > ft_strlen(s))
+		return (NULL);
 	len_a = ft_strlen(s) - start;
 	if (len > len_a)
 		len = len_a;
@@ -86,12 +86,18 @@ char	*ft_strdup(const char *src)
 {
 	char	*str;
 	int		s;
+	int		i;
 
 	s = ft_strlen(src);
 	str = malloc(s + 1);
 	if (!src)
-		return (0);
-	ft_memcpy(str, src, s);
+		return (NULL);
+	i = 0;
+	while (i < s)
+	{
+		str[i] = src[i];
+		i++;
+	}
 	str[s] = '\0';
 	return (str);
 }
