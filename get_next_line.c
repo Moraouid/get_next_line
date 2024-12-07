@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:31 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/03 18:16:51 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2024/12/07 15:08:25 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*read_join(int fd, char *rem)
 		return (NULL);
 	}
 	if (b_read == 0)
-		return(rem);
+		return (rem);
 	BUFFER[b_read] = '\0';
 	rem = ft_strjoin(rem, BUFFER);
 	if (!rem)
@@ -61,25 +61,47 @@ char	*get_next_line(int fd)
 	char	*line;
 	
 	if (fd < 0 || BUFFER_SIZE <= 0)
-	{
-		free(rem);
-		rem = NULL;
-		return (NULL);
-	}
+		return (free(rem), rem = NULL, NULL);
 	if (!rem)
 		rem = ft_strdup("");
-	while (!ft_strchr(rem, '\n'))
-	{
-		rem = read_join(fd, rem);
-		if (!rem)
-			return (NULL);	
-	}
 	line = line_extra(&rem);
-	if(!line && rem)
+	if (line)
+		return (line);
+	rem = read_join(fd, rem);
+	if (!rem)
+		return (NULL);
+	line = line_extra(&rem);
+	if (line)
+		return (line);
+	if (ft_strlen(rem) > 0)
 	{
 		line = ft_strdup(rem);
 		free(rem);
 		rem = NULL;
+		return (line);
 	}
-	return (line);
+	return (NULL);
 }
+
+// #include <fcntl.h>
+// #include <stdio.h>
+
+// int main()
+// {
+//     int fd = open("test.txt", O_RDONLY); 
+//     if (fd < 0)
+//     {
+//         printf("Error: Could not open file.\n");
+//         return (1);
+//     }
+
+//     char *line;
+//     while ((line = get_next_line(fd)) != NULL)
+//     {
+//         printf("%s", line);
+//         free(line); 
+//     }
+
+//     close(fd);
+//     return (0);
+// }
