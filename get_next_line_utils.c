@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:21 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/02 01:55:43 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:02:05 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	int		i;
 	int		j;
@@ -35,6 +35,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (s2[j])
 		res[i++] = s2[j++];
 	res[i] = '\0';
+	free(s1);
 	return (res);
 }
 
@@ -58,6 +59,8 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
+	if(!s)
+		return (0);
 	while (s[i])
 		i++;
 	return (i);

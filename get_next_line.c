@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:31 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/07 15:08:25 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:24:36 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,27 @@
 
 static char	*read_join(int fd, char *rem)
 {
-	char	BUFFER[BUFFER_SIZE + 1];
-	int	b_read;
-
+	char	*BUFFER;
+	ssize_t	b_read;
+	
+	if(BUFFER_SIZE < 0)
+		return NULL;
+	BUFFER = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
 	b_read = read(fd, BUFFER, BUFFER_SIZE);
 	if (b_read < 0)
-	{
-		free(rem);
-		return (NULL);
-	}
+		return (free(rem), free(BUFFER), BUFFER = NULL, NULL);
 	if (b_read == 0)
+	{
+		free(BUFFER);
+		BUFFER = NULL;
 		return (rem);
+	}
+	if (!rem)
+		 rem = ft_strdup("");
 	BUFFER[b_read] = '\0';
 	rem = ft_strjoin(rem, BUFFER);
+	free(BUFFER);
+	BUFFER = NULL;
 	if (!rem)
 		return (NULL);
 	return (rem);
@@ -59,14 +67,11 @@ char	*get_next_line(int fd)
 {
 	static char	*rem;
 	char	*line;
-	
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (free(rem), rem = NULL, NULL);
-	if (!rem)
-		rem = ft_strdup("");
-	line = line_extra(&rem);
-	if (line)
-		return (line);
+		return (NULL);
+//	if (!rem)
+//		rem = ft_strdup("");
 	rem = read_join(fd, rem);
 	if (!rem)
 		return (NULL);
@@ -80,7 +85,7 @@ char	*get_next_line(int fd)
 		rem = NULL;
 		return (line);
 	}
-	return (NULL);
+	return (free(rem), rem = NULL, NULL);
 }
 
 // #include <fcntl.h>
@@ -89,17 +94,18 @@ char	*get_next_line(int fd)
 // int main()
 // {
 //     int fd = open("test.txt", O_RDONLY); 
-//     if (fd < 0)
-//     {
-//         printf("Error: Could not open file.\n");
-//         return (1);
-//     }
+//      if (fd < 0)
+//      {
+//          printf("Error: Could not open file.\n");
+//          return (1);
+//      }
 
 //     char *line;
 //     while ((line = get_next_line(fd)) != NULL)
 //     {
 //         printf("%s", line);
-//         free(line); 
+//         free(line);
+// 		//line = NULL;
 //     }
 
 //     close(fd);
