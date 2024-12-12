@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/25 18:20:31 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/12 18:35:09 by sel-abbo         ###   ########.fr       */
+/*   Created: 2024/12/12 18:36:55 by sel-abbo          #+#    #+#             */
+/*   Updated: 2024/12/12 18:54:44 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*read_join(int fd, char *rem)
 {
@@ -63,59 +63,25 @@ static char	*line_extra(char	**rem)
 
 char	*get_next_line(int fd)
 {
-	static char	*rem;
+	static char	*rem[1024];
 	char	*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!rem)
-		 rem = ft_strdup("");
-	rem = read_join(fd, rem);
-	if (!rem)
+	if (!rem[fd])
+		 rem[fd] = ft_strdup("");
+	rem[fd] = read_join(fd, rem[fd]);
+	if (!rem[fd])
 		return (NULL);
-	line = line_extra(&rem);
+	line = line_extra(&rem[fd]);
 	if (line)
 		return (line);
-	if (ft_strlen(rem) > 0)
+	if (ft_strlen(rem[fd]) > 0)
 	{
-		line = ft_strdup(rem);
-		free(rem);
-		rem = NULL;
+		line = ft_strdup(rem[fd]);
+		free(rem[fd]);
+		rem[fd] = NULL;
 		return (line);
 	}
-	return (free(rem), rem = NULL, NULL);
+	return (free(rem[fd]), rem[fd] = NULL, NULL);
 }
-
-// #include <fcntl.h>
-// #include <stdio.h>
-
-// int main()
-// {
-//     int fd = open("test.txt", O_RDONLY); 
-//      if (fd < 0)
-//      {
-//          printf("Error: Could not open file.\n");
-//          return (1);
-//      }
-
-//     char *line;
-// 	// line = get_next_line(fd);
-// 	// printf("%s", line);
-// 	// line = get_next_line(fd);
-// 	// printf("%s", line);
-// 	// line = get_next_line(fd);
-// 	// printf("%s", line);
-// 	// line = get_next_line(fd);
-// 	// printf("%s", line);
-// 	// line = get_next_line(fd);
-// 	// printf("%s", line);
-//     while ((line = get_next_line(fd)) != NULL)
-//     {
-//         printf("%s", line);
-//         free(line);
-// 		//line = NULL;
-//     }
-
-//     close(fd);
-//     return (0);
-// }
