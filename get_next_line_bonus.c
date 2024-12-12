@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:36:55 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/12 18:54:44 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2024/12/12 19:07:24 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,3 +85,38 @@ char	*get_next_line(int fd)
 	}
 	return (free(rem[fd]), rem[fd] = NULL, NULL);
 }
+// #include <fcntl.h>
+// #include <stdio.h>
+
+// int main()
+// {
+//     int fd1 = open("test.txt", O_RDONLY); 
+//     int fd2 = open("test2.txt", O_RDONLY); 
+//     //  if (fd < 0)
+//     //  {
+//     //      printf("Error: Could not open file.\n");
+//     //      return (1);
+//     //  }
+
+//     char *line;
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	line = get_next_line(fd2);
+// 	printf("%s", line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	line = get_next_line(fd2);
+// 	printf("%s", line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+//     // while ((line = get_next_line(fd)) != NULL)
+//     // {
+//     //     printf("%s", line);
+//     //     free(line);
+// 	// 	//line = NULL;
+//     // }
+
+//     close(fd1);
+//     close(fd2);
+//     return (0);
+// }

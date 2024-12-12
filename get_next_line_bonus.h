@@ -6,12 +6,12 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:37:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/12 18:38:33 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2024/12/12 19:03:13 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <stdlib.h>
 # include <unistd.h>
